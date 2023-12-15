@@ -4,7 +4,7 @@ import pyperclip
 
 
 # 版本变更：0.8.3
-# 增加已复制到剪切板提示
+# 一键卸载按钮改为红色
 
 # appinfdic的key有：["Name", "Publisher", "Architecture", "ResourceId", "Version","PackageFullName",
 # "InstallLocation", "IsFramework", "PackageFamilyName","PublisherId", "IsResourcePackage", "IsBundle",
@@ -121,7 +121,7 @@ def create_layout():
         sg.Button('全选'),
         sg.Button('反选'),
         sg.Button('复制名称'),
-        sg.Button('一键卸载'),
+        sg.Button('一键卸载',button_color='red'),
         sg.Button('退出'),
         sg.Button('推荐卸载', button_color='green'),
         sg.Text('第三方', text_color='blue'),
@@ -248,6 +248,4 @@ while True:
         for app in recom_dict.keys():
             if app in name_list:
                 window[app].update(value=True)
-            # else:
-            #     print(app, '不存在')
 window.close()
