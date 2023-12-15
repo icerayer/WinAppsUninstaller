@@ -3,10 +3,12 @@ import PySimpleGUI as sg
 import pyperclip
 
 
-# 版本变更：0.8.2
-# 增加第三方分类Developer
+# 版本变更：0.8.3
+# 增加已复制到剪切板提示
 
-# appinfdic的key有：["Name", "Publisher", "Architecture", "ResourceId", "Version","PackageFullName", "InstallLocation", "IsFramework", "PackageFamilyName","PublisherId", "IsResourcePackage", "IsBundle", "IsDevelopmentMode","NonRemovable", "IsPartiallyStaged", "SignatureKind", "Status", 'Dependencies']
+# appinfdic的key有：["Name", "Publisher", "Architecture", "ResourceId", "Version","PackageFullName",
+# "InstallLocation", "IsFramework", "PackageFamilyName","PublisherId", "IsResourcePackage", "IsBundle",
+# "IsDevelopmentMode","NonRemovable", "IsPartiallyStaged", "SignatureKind", "Status", 'Dependencies']
 def uninstall_selected_apps(sel_apps):
     for app in sel_apps:
         try:
@@ -88,9 +90,9 @@ def tidy(name_list):
     noml.sort()
     dev.sort()
     warn.sort()
-    print('推荐卸载\t', len(recom))
-    print('第三方\t', len(dev))
-    print('不建议卸载\t', len(warn))
+    print('推荐卸载', len(recom))
+    print('第三方', len(dev))
+    print('不建议卸载', len(warn))
     return recom + noml + dev + warn
 
 
@@ -121,7 +123,7 @@ def create_layout():
         sg.Button('复制名称'),
         sg.Button('一键卸载'),
         sg.Button('退出'),
-        sg.Text('推荐卸载', text_color='green'),
+        sg.Button('推荐卸载', button_color='green'),
         sg.Text('第三方', text_color='blue'),
         sg.Text('不推荐卸载', text_color='purple'),
         sg.Text('已卸载', text_color='red'),
@@ -238,7 +240,14 @@ while True:
 
     if event == '复制名称':
         selected_apps = [app for app in name_list if window[app].get()]
-        print(selected_apps)
         pyperclip.copy('\n'.join(selected_apps))
+        print(selected_apps)
+        print('已复制到剪切板', len(selected_apps), '个应用')
 
+    if event == '推荐卸载':
+        for app in recom_dict.keys():
+            if app in name_list:
+                window[app].update(value=True)
+            # else:
+            #     print(app, '不存在')
 window.close()
